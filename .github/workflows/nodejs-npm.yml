@@ -1,0 +1,26 @@
+name: Build Break
+                                                                                                                                                                                                                                         
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+                                                                                                                                                                                                                                         
+jobs:
+  coverity-scan:
+    runs-on: [mac-arm-sh]
+                                                                                                                                                                                                                                         
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v4
+      
+    - name: Coverity Scan
+      uses: blackduck-inc/black-duck-security-scan@v2
+      with:
+        coverity_url: ${{ vars.COVERITY_URL }}
+        coverity_user: ${{ secrets.COVERITY_USER }}
+        coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        coverity_policy_view: "Outstanding Issues"
+
+      
